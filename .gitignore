@@ -3,3 +3,6 @@
 /swda
 .vector_cache
 __pycache__
+/test
+/train
+/validation

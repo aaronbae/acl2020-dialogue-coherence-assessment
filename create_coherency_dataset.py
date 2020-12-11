@@ -334,14 +334,13 @@ class SwitchboardConverter:
         segment_permutations = []
         permutations = [list(segm_ixs.keys())]
         for _ in range(amount):
-            speaker = random.randint(0,1) # choose one of the speakers
-            speaker_to_perm = list(filter(lambda x: (x-speaker) % 2 == 0, segments))
-            speaker_orig = list(filter(lambda x: (x-speaker) % 2 != 0, segments))
-            #TODO: rename either speaker_ix or speaker_ixs, they are something different, but the names are too close
-            if len(speaker_to_perm) < 2:
-                return []
-
             while True:
+                speaker = random.randint(0,1) # choose one of the speakers
+                speaker_to_perm = list(filter(lambda x: (x-speaker) % 2 == 0, segments))
+                speaker_orig = list(filter(lambda x: (x-speaker) % 2 != 0, segments))
+                #TODO: rename either speaker_ix or speaker_ixs, they are something different, but the names are too close
+                if len(speaker_to_perm) < 2:
+                    return []
                 permuted_speaker_ix = np.random.permutation(speaker_to_perm).tolist()
 
                 new_segments = [None]*(len(speaker_orig)+len(permuted_speaker_ix))
@@ -447,7 +446,17 @@ class SwitchboardConverter:
                     speaker_ixs.append(0)
                 else:
                     speaker_ixs.append(1)
-
+            '''        
+            print("======================")
+            print("======================")
+            print("======================")
+            print("======================")
+            print(trans.swda_filename, len(utterances), len(acts), len(speaker_ixs))
+            print("======================")
+            print("======================")
+            print("======================")
+            print("======================")
+            '''
             if self.task == 'up':
                 permuted_ixs , segment_perms = self.swda_permute(utterances, amounts, speaker_ixs)
             elif self.task == 'us':

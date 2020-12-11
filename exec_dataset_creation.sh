@@ -21,13 +21,12 @@ DataSwitchBoard=$DiCoh/data/switchboard
 #source /ukp-storage-1/mesgar/anaconda3/bin/activate dicoh
 
 ################
-
+<<DailyDialogRemovalSection
 if [[ -d  $DataDailyDialog ]];
 then
     rm -r $DataDailyDialog
     mkdir $DataDailyDialog
 fi
-
 cd $DataDailyDialog
 
 wget http://yanran.li/files/ijcnlp_dailydialog.zip
@@ -39,6 +38,7 @@ unzip -qq ijcnlp_dailydialog/test.zip
 rm -r ijcnlp_dailydialog
 rm ijcnlp_dailydialog.zip
 ################
+DailyDialogRemovalSection
 
 if [[ -d  $DataSwitchBoard ]];
 then
@@ -112,8 +112,8 @@ do
                                                   --seed 135486 \
                                                   --datadir $DataSwitchBoard \
                                                   --task $TASK \
-                                                  --amount 20
-                                                  --skip_utterances 0
+                                                  --amount 10 \
+                                                  --skip_utterances 0 \
                                                   --include_utterances 50
 done
 

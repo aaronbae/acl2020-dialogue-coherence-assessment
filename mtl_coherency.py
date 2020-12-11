@@ -167,7 +167,6 @@ def main():
                                                         total=len(dl), desc=desc_str, postfix="LR: {}".format(args.learning_rate)):
         # additional code to shorten context/ dialogue
 
-        
         if args.test and i >= test_amount:
           break
 
@@ -215,32 +214,35 @@ def main():
     # choose the best epoch
     if args.model != "random" and args.model != "cosine" and args.oot_model == None:
       best_epoch = 0
-      best_coh_acc, best_da_acc = None, None
-      for i in range(args.epochs):
-        model_file_epoch = os.path.join(args.datadir, "{}_task-{}_loss-{}_epoch-{}.ckpt".format(
-            str(model), str(args.task), str(args.loss), str(i)))
-        model.load_state_dict(torch.load(model_file_epoch))
-        model.to(device)
-        model.eval()
+      if args.best_epoch:
+        best_epoch = args.best_epoch
+      else:
+        best_coh_acc, best_da_acc = None, None
+        for i in range(args.epochs):
+          model_file_epoch = os.path.join(args.datadir, "{}_task-{}_loss-{}_epoch-{}.ckpt".format(
+              str(model), str(args.task), str(args.loss), str(i)))
+          model.load_state_dict(torch.load(model_file_epoch))
+          model.to(device)
+          model.eval()
 
-        (coh_y_true, coh_y_pred), (da_y_true, da_y_pred) = _eval_datasource(
-            val_dl, "Validation {}:".format(i))
-        if i == 0:
-          best_coh_acc = accuracy_score(coh_y_true, coh_y_pred)
-          best_da_acc = accuracy_score(da_y_true, da_y_pred)
-        elif args.loss == 'da':
-          curr_da_acc = accuracy_score(da_y_true, da_y_pred)
-          if curr_da_acc > best_da_acc:
-            best_epoch = i
-        elif args.loss == 'coh':
-          curr_coh_acc = accuracy_score(coh_y_true, coh_y_pred)
-          if curr_coh_acc > best_coh_acc:
-            best_epoch = i
-        elif args.loss == 'mtl' or args.loss == 'coin' or args.loss == 'sum':
-          curr_coh_acc = accuracy_score(coh_y_true, coh_y_pred)
-          curr_da_acc = accuracy_score(da_y_true, da_y_pred)
-          if curr_coh_acc+curr_da_acc > best_coh_acc+best_da_acc:
-            best_epoch = i
+          (coh_y_true, coh_y_pred), (da_y_true, da_y_pred) = _eval_datasource(
+              val_dl, "Validation {}:".format(i))
+          if i == 0:
+            best_coh_acc = accuracy_score(coh_y_true, coh_y_pred)
+            best_da_acc = accuracy_score(da_y_true, da_y_pred)
+          elif args.loss == 'da':
+            curr_da_acc = accuracy_score(da_y_true, da_y_pred)
+            if curr_da_acc > best_da_acc:
+              best_epoch = i
+          elif args.loss == 'coh':
+            curr_coh_acc = accuracy_score(coh_y_true, coh_y_pred)
+            if curr_coh_acc > best_coh_acc:
+              best_epoch = i
+          elif args.loss == 'mtl' or args.loss == 'coin' or args.loss == 'sum':
+            curr_coh_acc = accuracy_score(coh_y_true, coh_y_pred)
+            curr_da_acc = accuracy_score(da_y_true, da_y_pred)
+            if curr_coh_acc+curr_da_acc > best_coh_acc+best_da_acc:
+              best_epoch = i
 
       logging.info("Best Epoch = {}".format(best_epoch))
       # evaluate all sets on the best epoch

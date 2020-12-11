@@ -1,0 +1,19 @@
+INFO:Used Hyperparameters:
+INFO:learning_rate = 0.0005
+INFO:num_epochs = 20
+INFO:lstm_hidden_sent = 128
+INFO:lstm_hidden_utt = 256
+INFO:lstm_layers = 1
+INFO:batch_size = 10
+INFO:dropout probability = 0.1
+INFO:MTL Sigma Init = 2.0
+INFO:========================
+INFO:task = up
+INFO:loss = mtl
+INFO:seed = 45864
+INFO:embedding = glove
+INFO:========================
+INFO:Used Device = cpu
+INFO:Loading vectors from .vector_cache/glove.42B.300d.txt.pt
+INFO:Used Model = model-3
+INFO:Best Epoch = 19
