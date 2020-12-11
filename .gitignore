@@ -1,0 +1,5 @@
+/data/daily_dialog/*
+/data/switchboard/*
+/swda
+.vector_cache
+__pycache__

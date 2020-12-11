@@ -405,7 +405,7 @@ class SwitchboardConverter:
 
         return permutations
 
-    def convert_dset(self, amounts):
+    def convert_dset(self, amounts, skip_utterances=0, include_utterances=-1):
         # create distinct train/validation/test files. they'll correspond to the created
         # splits from the constructor
         train_output_file = os.path.join(self.data_dir, 'train', 'coherency_dset_{}.txt'.format(self.task))
@@ -431,7 +431,9 @@ class SwitchboardConverter:
             acts = []
             speaker_ixs = []
             prev_act = "%"
-            for utt in trans.utterances:
+            for index, utt in enumerate(trans.utterances):
+                if index < skip_utterances or index >= skip_utterances + include_utterances:
+                  continue
                 sentence = re.sub(r"([+/\}\[\]]|\{\w)", "",
                                 utt.text)
                 sentence = self.word2id(self.tokenizer(sentence))
@@ -541,6 +543,14 @@ def main():
                                               us (utterance sampling)
                                               hup (half utterance petrurbation)
                                               ui (utterance insertion, nothing directly added!)""")
+    parser.add_argument('--skip_utterances',
+                        type=int,
+                        default=0,
+                        help="number of utterances to skip in the beginning")
+    parser.add_argument('--include_utterances',
+                        type=int,
+                        default=-1,
+                        help="specifies how many utterances you want to include. default -1 means all")
 
     args = parser.parse_args()
 
@@ -561,11 +571,14 @@ def main():
     if args.corpus == 'DailyDialog':
         converter = DailyDialogConverter(args.datadir, tokenizer, word2id, task=args.task)
         converter.create_act_utt()
+        converter.convert_dset(amounts=args.amount)
     elif args.corpus == 'Switchboard':
         converter = SwitchboardConverter(args.datadir, tokenizer, word2id, args.task, args.seed)
         converter.create_vocab()
+        converter.convert_dset(amounts=args.amount, 
+                              skip_utterances=args.skip_utterances, 
+                              include_utterances=args.include_utterances)
 
-    converter.convert_dset(amounts=args.amount)
 
 def getKeysByValue(dictOfElements, valueToFind):
     listOfKeys = list()

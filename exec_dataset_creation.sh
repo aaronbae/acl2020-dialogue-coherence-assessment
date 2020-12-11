@@ -12,13 +12,13 @@
 
 
 #####################
-DiCoh=/ukp-storage-1/mesgar/DiCoh
+DiCoh=/mnt/c/Users/Aaron/Desktop/acl2020-dialogue-coherence-assessment
 DataDailyDialog=$DiCoh/data/daily_dialog
 DataSwitchBoard=$DiCoh/data/switchboard
 
 ################
 
-source /ukp-storage-1/mesgar/anaconda3/bin/activate dicoh
+#source /ukp-storage-1/mesgar/anaconda3/bin/activate dicoh
 
 ################
 
@@ -69,7 +69,7 @@ rm -rf $DataSwitchBoard/swda
 
 
 ################
-TASKS=(up)
+TASKS=(up hup ui us)
 : '
  up is UO in the paper
  hup is EUO in the paper
@@ -112,6 +112,8 @@ do
                                                   --datadir $DataSwitchBoard \
                                                   --task $TASK \
                                                   --amount 20
+                                                  --skip_utterances 0
+                                                  --include_utterances 50
 done
 
 ################
