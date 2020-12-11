@@ -80,6 +80,7 @@ TASKS=(up hup ui us)
 DATASETS=(train validation test)
 
 ################
+<<DailyDialogSection
 CORPUS="DailyDialog"
 
 for TASK in ${TASKS[@]};
@@ -95,7 +96,7 @@ do
                                                       --task $TASK
     done
 done
-
+DailyDialogSection
 ################
 echo ****************************
 ################
