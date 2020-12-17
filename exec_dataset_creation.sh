@@ -69,7 +69,7 @@ rm -rf $DataSwitchBoard/swda
 
 
 ################
-TASKS=(up)
+TASKS=(hup ui us)
 : '
  up is UO in the paper
  hup is EUO in the paper
