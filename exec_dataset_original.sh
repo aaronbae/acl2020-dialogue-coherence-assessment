@@ -12,6 +12,7 @@
 
 
 #####################
+#DiCoh=/home/beomjuna/acl2020-dialogue-coherence-assessment
 DiCoh=/mnt/c/Users/Aaron/Desktop/acl2020-dialogue-coherence-assessment
 DataDailyDialog=$DiCoh/data/daily_dialog
 DataSwitchBoard=$DiCoh/data/switchboard
