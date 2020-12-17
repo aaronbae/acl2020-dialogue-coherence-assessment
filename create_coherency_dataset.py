@@ -431,7 +431,7 @@ class SwitchboardConverter:
             speaker_ixs = []
             prev_act = "%"
             for index, utt in enumerate(trans.utterances):
-                if index < skip_utterances or index >= skip_utterances + include_utterances:
+                if index < skip_utterances or (include_utterances!=-1 and index >= skip_utterances + include_utterances):
                   continue
                 sentence = re.sub(r"([+/\}\[\]]|\{\w)", "",
                                 utt.text)
