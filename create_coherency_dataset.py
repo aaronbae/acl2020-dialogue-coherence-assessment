@@ -446,17 +446,7 @@ class SwitchboardConverter:
                     speaker_ixs.append(0)
                 else:
                     speaker_ixs.append(1)
-            '''        
-            print("======================")
-            print("======================")
-            print("======================")
-            print("======================")
-            print(trans.swda_filename, len(utterances), len(acts), len(speaker_ixs))
-            print("======================")
-            print("======================")
-            print("======================")
-            print("======================")
-            '''
+            
             if self.task == 'up':
                 permuted_ixs , segment_perms = self.swda_permute(utterances, amounts, speaker_ixs)
             elif self.task == 'us':
@@ -465,6 +455,17 @@ class SwitchboardConverter:
                 permuted_ixs , segment_perms = self.swda_half_perturb(amounts, speaker_ixs)
             elif self.task == 'ui':
                 permuted_ixs, segment_perms = self.swda_utterance_insertion(speaker_ixs, amounts)
+
+            
+            print("======================")
+            print("======================")
+            print("======================")
+            print("======================")
+            print(i, len(utterances), len(permuted_ixs), len(segment_perms))
+            print("======================")
+            print("======================")
+            print("======================")
+            print("======================")
 
             swda_fname = os.path.split(trans.swda_filename)[1]
             shuffle_file = os.path.join(shuffled_path, swda_fname) # [:-4]
